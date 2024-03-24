@@ -91,7 +91,7 @@ void Game::joaca() {
     }
 }
 
-void Game::razboiMode(int &numarCartiRazboi, std::vector<Carte> &rundaCurenta, Pachet &castig) {
+void Game::razboiMode(const int &numarCartiRazboi, std::vector<Carte> &rundaCurenta, Pachet &castig) {
     afisareSeparator();
     std::cout << "  _____           _           _ \n"
                  " |  __ \\         | |         (_)\n"

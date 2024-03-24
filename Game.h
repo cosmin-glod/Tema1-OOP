@@ -23,7 +23,7 @@ public:
     };
 
     static bool existaRazboi(int &, std::vector<Carte>&);
-    void razboiMode(int&, std::vector<Carte>&, Pachet&);
+    void razboiMode(const int&, std::vector<Carte>&, Pachet&);
 
    // void afisareCartiGoale() const;
     void joaca();
