@@ -58,7 +58,7 @@ void Game::joaca() {
     }
 
     /// Determinare castigator runda
-    unsigned long long indexCastigator;
+    unsigned long long indexCastigator = 0;
     int maxim = 0;
     for (unsigned long long i = 0; i < rundaCurenta.size(); ++i) {
         if (rundaCurenta[i] > maxim) {
