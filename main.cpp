@@ -31,11 +31,9 @@ int main() {
     }
 
     /// Amestecare pachet de carti - chat gpt
-        // Seed the random number generator
         std::random_device rd;
         std::mt19937 gen(rd());
 
-        // Use std::shuffle to shuffle the array
         std::shuffle(pachetCarti.begin(), pachetCarti.end(), gen);
 
     Game game;
@@ -102,6 +100,7 @@ int main() {
         game.joaca();
         ++round;
     }
+    std::cout << std::endl;
     std::cout << "JOCUL S-A INCHEIAT\nCASTIGATORUL ESTE ";
     std::cout << game.getCastigator();
     return 0;
