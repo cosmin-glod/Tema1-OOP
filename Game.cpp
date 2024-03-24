@@ -103,11 +103,11 @@ void Game::razboiMode(const int &numarCartiRazboi, std::vector<Carte> &rundaCure
 
     bool exista = true;
     for (int i = 1; i <= numarCartiRazboi; ++i) {
-        int j = 0;
         std::cout << "Puneti jos a " << i << "-a carte !\n";
         std::cin.get();
         if (exista) {
             exista = false;
+            int j = 0;
             for (auto &p: players) {
                 if (p.eActiv()) {
                     if (p.areCarti()) {
