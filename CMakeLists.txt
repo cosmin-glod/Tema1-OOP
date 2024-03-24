@@ -98,6 +98,8 @@ add_executable(${PROJECT_NAME} main.cpp
         Pachet.h
         Jucator.cpp
         Jucator.h
+        Game.cpp
+        Game.h
 )
 
 ###############################################################################

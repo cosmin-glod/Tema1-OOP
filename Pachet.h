@@ -6,16 +6,28 @@
 #define OOP_PACHET_H
 #include <queue>
 #include "Carte.h"
+#include <iostream>
 
 class Pachet {
     std::queue<Carte> pachet;
 public:
-    Pachet(Carte[26]);
     Pachet() = default;
-    void afisarePachet() const;
 
-    Carte scoatePrimaCarte();
-    int dimensiunePachet();
+    friend std::ostream& operator<<(std::ostream &os, Pachet obj) {
+        while (!obj.pachet.empty()) {
+            std::cout << obj.pachet.front();
+            obj.pachet.pop();
+        }
+        return os;
+    }
+
+    void adaugaCarte(const Carte& c);
+
+    [[nodiscard]] bool gol() const {
+        return pachet.empty();
+    }
+    Carte extrageCarte();
+    [[nodiscard]] unsigned long long numarCarti() const;
 };
 
 

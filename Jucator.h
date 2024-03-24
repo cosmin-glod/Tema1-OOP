@@ -10,26 +10,43 @@
 class Jucator {
     std::string nume;
     Pachet pachet;
+    bool activ = true;
 public:
     /// Constructor de initializare
-    Jucator(const Pachet&, const std::string&);
+    Jucator() = default;
+    explicit Jucator(std::string );
 
-    /// Getter nume
-    std::string getNume() const;
-    /// Getter Pachet
-    Pachet getPachet();
-
-    /// Extragere Carte
-    Carte extrageCarte();
-
-    /// mai exista carti
-    bool maiAreCarti();
 
     /// Operatorul <<
     friend std::ostream& operator<<(std::ostream& os, const Jucator& obj) {
         os << obj.nume;
         return os;
     }
+    /// Operatorul >>
+    friend std::istream& operator>>(std::istream& os,Jucator& obj) {
+        os >> obj.nume;
+        return os;
+    }
+
+    /// Getter pachet
+    [[nodiscard]] Pachet getPachet() const {
+        return pachet;
+    }
+
+    [[nodiscard]] bool eActiv() const {
+        return activ;
+    }
+    [[nodiscard]] bool areCarti() const {
+        return !pachet.gol();
+    }
+
+    /// Verificare daca numele este unul valid
+    [[nodiscard]] bool numeValid() const;
+
+    void adaugaCarte(const Carte&);
+    Carte extrageCarte();
+    void eliminaDacaInactiv();
+    [[nodiscard]] unsigned long long numarCarti() const;
 };
 
 

@@ -4,17 +4,38 @@
 
 #include "Jucator.h"
 #include <string>
+#include <utility>
 
-Jucator::Jucator(const Pachet& p, const std::string& name) : pachet{p}, nume{name} {}
+Jucator::Jucator(std::string  n) : nume{std::move(n)} {}
 
-std::string Jucator::getNume() const { return nume; }
 
-Pachet Jucator::getPachet() { return pachet; }
-
-Carte Jucator::extrageCarte() {
-    return pachet.scoatePrimaCarte();
+bool Jucator::numeValid() const {
+    for (char c : nume) {
+        if (!std::isalnum(c))
+            return false;
+    }
+    return true;
 }
 
-bool Jucator::maiAreCarti() {
-    return pachet.dimensiunePachet();
+void Jucator::adaugaCarte(const Carte &c) {
+    pachet.adaugaCarte(c);
+}
+
+Carte Jucator::extrageCarte() {
+    Carte aux = pachet.extrageCarte();
+    if (aux == Carte{"0", 0}) {
+        activ = false;
+    }
+    return aux;
+}
+
+void Jucator::eliminaDacaInactiv() {
+    if (activ && !areCarti()) {
+        activ = false;
+        std::cout << '\n' << nume << " a pierdut !\n\n";
+    }
+}
+
+unsigned long long Jucator::numarCarti() const {
+    return pachet.numarCarti();
 }

@@ -1,80 +1,108 @@
 #include <iostream>
-#include <array>
-#include <Helper.h>
 #include <string>
-#include <queue>
-
-/// Chat GPT
 #include <algorithm>
-#include <ctime>  // For std::time
-#include <cstdlib>  // For std::rand and std::srand
 #include <random>
-/// Chat GPT
+#include <unordered_map>
 
 #include "Carte.h"
 #include "Jucator.h"
-#include "Pachet.h"
-
-bool gameOver = false;
+#include "Game.h"
 
 int main() {
 
-    std::cout << "------------------RAZBOI EGIPTEAN------------------\n";
+    std::cout << "----------------------RAZBOI----------------------\n";
+
+    std::cout << "\t  .------.------.------.------.\n"
+                 "\t  |A_  _ |A /\\  |A _   |A .   |\n"
+                 "\t  |( \\/ )| /  \\ | ( )  | / \\  |\n"
+                 "\t  | \\  / | \\  / |(_x_) |(_,_) |\n"
+                 "\t  |  \\/ A|  \\/ A|  Y  A|  I  A|\n"
+                 "\t  `------^------^------'------'\n";
 
     /// Definire pachet de carti
-    Carte carti[52] = {{0, 2},{0, 3},{0, 4},{0, 5},{0, 6},{0, 7},{0, 8},{0, 9},{0, 10},{0, 11},{0, 12},{0, 13},{0, 14},
-            {1, 2},{1, 3},{1, 4},{1, 5},{1, 6},{1, 7},{1, 8},{1, 9},{1, 10},{1, 11},{1, 12},{1, 13},{1, 14},
-            {2, 2},{2, 3},{2, 4},{2, 5},{2, 6},{2, 7},{2, 8},{2, 9},{2, 10},{2, 11},{2, 12},{2, 13},{2, 14},
-            {3, 2},{3, 3},{3, 4},{3, 5},{3, 6},{3, 7},{3, 8},{3, 9},{3, 10},{3, 11},{3, 12},{3, 13},{3, 14}
-    };
+    std::vector<Carte> pachetCarti;
+    std::vector<std::string> suits = {"INIMA", "ROMB", "FRUNZA", "TREFLA"};
+    std::vector<int> ranks = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+    for (const auto& suit : suits) {
+        for (const auto& rank : ranks) {
+            Carte aux{suit, rank};
+            pachetCarti.push_back(aux);
+        }
+    }
 
-    /// Amestecare pachet de carti
+    /// Amestecare pachet de carti - chat gpt
         // Seed the random number generator
         std::random_device rd;
         std::mt19937 gen(rd());
 
         // Use std::shuffle to shuffle the array
-        std::shuffle(carti, carti + 52, gen);
+        std::shuffle(pachetCarti.begin(), pachetCarti.end(), gen);
 
-    /// Impartire pachet carti
+    Game game;
 
-    std::cout << "Nume jucator :";
-    std::string numeJucator;
-    std::cin >> numeJucator;
-    std::cin.get();
+    int numarBoti = 0;
+    while (true) {
+        std::cout << "Jocul se joaca in 2-4 jucatori\n";
+        std::cout << "Cati boti doriti sa adaugati ? :";
+        std::cin >> numarBoti;
 
-    Jucator bot{Pachet {carti}, "Bot"}; /// Player 1 - Bot
-    Jucator player{Pachet {carti + 26}, numeJucator}; /// Player 2 - NumeJucator
-
-    unsigned int runda = 0;
-    Carte carte1;
-    Carte carte2;
-
-    while (!gameOver) {
-        std::cout << ++runda << ":\n";
-
-        carte1 = bot.extrageCarte();
-        std::cout << bot << " a extras\t" << carte1;
-        std::cin.get();
-
-        carte2 = player.extrageCarte();
-        std::cout << player << " a extras\t" << carte2;
-        std::cin.get();
-
-        if (carte1 > carte2) {
-            std::cout << bot << " castiga aici";
-            std::cin.get();
-        }
-        else if (carte1 < carte2) {
-            std::cout << player << " castiga aici";
-            std::cin.get();
-        }
-        else {
-            std::cout << "Egalitate";
-            std::cin.get();
-        }
-        std::cout << '\n';
-        gameOver = !bot.maiAreCarti() || !player.maiAreCarti();
+        if (numarBoti < 1 || numarBoti > 3)
+            std::cout << "Input invalid\n\n";
+        else
+            break;
     }
+    Jucator jucator;
+    std::cout << "Introdu numele tau ? :";
+    std::cin >> jucator;
+
+    while (!jucator.numeValid()) {
+        std::cout << "Nume invalid! Trebuie folosite doar literele a-z si cifrele 0-9 !\n";
+        std::cout << "Introdu numele tau ? :";
+        std::cin >> jucator;
+        std::cout << '\n';
+    }
+
+    game.adaugaJucator(jucator);
+
+    for (int i = 1; i <= numarBoti; ++i) {
+        Jucator aux;
+        std::cout << "Nume bot " << i << " :";
+        std::cin >> aux;
+
+        if (!aux.numeValid()) {
+            std::cout << "Nume invalid! Trebuie folosite doar literele a-z si cifrele 0-9 !\n";
+            --i;
+        }
+        else
+            game.adaugaJucator(aux);
+    }
+
+    /// Impart pachetul de carti la jucatori
+    int ind = 0, numarJucatori = numarBoti + 1;
+    for (auto &c : pachetCarti) {
+        game.adaugaCarteJucatorului(c, ind++ % numarJucatori);
+    }
+
+
+    int round = 1;
+    char actiune;
+    while (!game.isGameOver()) {
+        Game::afisareSeparator();
+        std::cout << "Runda : " << round << '\n';
+        std::cout << "Toata lumea pune carte jos !\n\n";
+        std::cin >> actiune;
+
+        if (actiune == '0') {
+            game.afisareStatusJoc();
+            Game::afisareSeparator();
+        }
+        else if (actiune == 'x') /// iesire din joc
+            return 0;
+
+        game.joaca();
+        ++round;
+    }
+    std::cout << "JOCUL S-A INCHEIAT\nCASTIGATORUL ESTE ";
+    std::cout << game.getCastigator();
     return 0;
 }
