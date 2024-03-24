@@ -1,4 +1,23 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# Razboi - joc de carti
+
+Jocul se joaca in 2-4 jucatori, un player fizic si 1-3 boti.  
+Se introduce numarul de boti doriti. Apoi numele tau si al botilor.  
+Aceste nume trebuie sa nu contina spatii si sa fie formate doar din caractere alfa numerice.  
+
+Un pachet de carti se amesteca si se imparte la numarul de jucatori.
+
+Fiecare pachet din mana fiecarui jucator e implementat ca si o coada, deoarece cartile se scot una cate una din fata si se adauga in spate.
+
+La fiecare runda, fiecare jucator scoate o carte.
+In cazul in care sunt 2 carti la fel (au acelasi numar), atunci incepe modul razboi.
+In caz contrar, jucatorul cu cartea cea mai mare ia toate cartile, adaugandu-le la capatul pachetului.
+
+In scenariul cu razboiul:
+ - Fiecare jucator trebuie sa puna jos numarul de pe cartea cea mai mare care se repeta
+ - Daca un jucator ramane fara carti, acesta nu mai pune nicio carte ca nu are ce, si ramane cu ultima carte pusa
+ - Cand razboiul se termina, jucatorul cu cartea ce mai mare le ia pe toate celelate puse
+
+Jocul se termina cand toate cartile se afla in mainile unui singur jucator.
 
 ### Important!
 Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
