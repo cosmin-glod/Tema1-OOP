@@ -5,16 +5,16 @@
 #include "Jucator.h"
 #include <string>
 #include <utility>
+#include <cctype>
+#include <algorithm>
 
 Jucator::Jucator(std::string  n) : nume{std::move(n)} {}
 
 
 bool Jucator::numeValid() const {
-    for (char c : nume) {
-        if (!std::isalnum(c))
-            return false;
-    }
-    return true;
+    return std::all_of(nume.begin(), nume.end(), [](char c) {
+        return std::isalnum(c);
+    });
 }
 
 void Jucator::adaugaCarte(const Carte &c) {
