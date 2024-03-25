@@ -12,6 +12,12 @@ class Pachet {
     std::queue<Carte> pachet;
 public:
     Pachet() = default;
+    ~Pachet() = default;
+    Pachet(const Pachet& obj) = default;
+    Pachet& operator=(const Pachet& obj) {
+        if (this != &obj)
+            pachet = obj.pachet;
+    }
 
     friend std::ostream& operator<<(std::ostream &os, Pachet obj) {
         while (!obj.pachet.empty()) {

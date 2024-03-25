@@ -15,6 +15,16 @@ class Game {
     Jucator castigator;
 public:
     Game() = default;
+    ~Game() = default;
+    Game(const Game& obj) = default;
+    Game& operator=(const Game& obj) {
+        if (this != &obj) {
+            players = obj.players;
+            cartiJucate = obj.cartiJucate;
+            gameOver = obj.gameOver;
+            castigator = obj.castigator;
+        }
+    }
 
     void adaugaJucator(const Jucator& jucator);
     void adaugaCarteJucatorului(const Carte& c, int nr);

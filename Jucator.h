@@ -15,7 +15,15 @@ public:
     /// Constructor de initializare
     Jucator() = default;
     explicit Jucator(std::string );
-
+    ~Jucator() = default;
+    Jucator(const Jucator& obj) = default;
+    Jucator& operator=(const Jucator& obj) {
+        if (this != &obj) {
+            nume = obj.nume;
+            pachet = obj.pachet;
+            activ = obj.activ;
+        }
+    }
 
     /// Operatorul <<
     friend std::ostream& operator<<(std::ostream& os, const Jucator& obj) {

@@ -7,6 +7,8 @@ void Game::adaugaJucator(const Jucator &jucator) {
     players.push_back(jucator);
 }
 
+
+
 void Game::adaugaCarteJucatorului(const Carte &c, const int nr) {
     players[nr].adaugaCarte(c);
 }

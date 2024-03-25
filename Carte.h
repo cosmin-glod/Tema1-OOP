@@ -10,10 +10,18 @@
 
 class Carte {
     std::string tip;
-    int numar;
+    int numar = 0;
 public:
-    Carte(); /// constructorul default
+    Carte() = default; /// constructorul default
     Carte(std::string t, int nr); /// constructor parametrizat
+    ~Carte() = default;
+    Carte(const Carte& obj) = default;
+    Carte& operator=(const Carte& obj) {
+        if (this != &obj) {
+            tip = obj.tip;
+            numar = obj.numar;
+        }
+    }
 
     bool operator<(const Carte& other) const {
         return numar < other.numar;
