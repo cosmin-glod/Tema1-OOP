@@ -17,5 +17,3 @@ int Carte::getNumar() const {
 }
 
 Carte::Carte(std::string t, int nr) : tip{std::move(t)}, numar{nr} {}
-
-Carte::Carte() : tip{"0"}, numar{0} {}
