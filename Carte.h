@@ -21,6 +21,7 @@ public:
             tip = obj.tip;
             numar = obj.numar;
         }
+        return *this;
     }
 
     bool operator<(const Carte& other) const {

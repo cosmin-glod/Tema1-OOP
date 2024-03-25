@@ -23,6 +23,7 @@ public:
             pachet = obj.pachet;
             activ = obj.activ;
         }
+        return *this;
     }
 
     /// Operatorul <<

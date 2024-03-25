@@ -24,6 +24,7 @@ public:
             gameOver = obj.gameOver;
             castigator = obj.castigator;
         }
+        return *this;
     }
 
     void adaugaJucator(const Jucator& jucator);

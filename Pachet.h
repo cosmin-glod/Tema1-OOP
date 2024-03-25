@@ -17,6 +17,7 @@ public:
     Pachet& operator=(const Pachet& obj) {
         if (this != &obj)
             pachet = obj.pachet;
+        return *this;
     }
 
     friend std::ostream& operator<<(std::ostream &os, Pachet obj) {
