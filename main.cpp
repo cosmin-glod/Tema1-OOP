@@ -38,14 +38,27 @@ int main() {
 
     Game game;
 
+    std::cout << "Jocul se joaca in 2-4 jucatori\n";
+    std::cout << "Pachetul de carti este impartit in mod cat mai egal la toti jucatorii\n"
+                 "La fiecare runda, toti jucatorii pun jos o carte\n"
+                 "Jucatorul cu cartea cea mai mare le ia pe toate celelalte\n"
+                 "Daca exista 2 carti egale puse jos, atunci incepe RAZBOIUL\n"
+                 "Toata lumea va trebui sa puna x carti jos,\n"
+                 "x fiind numarul de pe cartea care apare jos de mai multe ori\n"
+                 "Jocul se incheie cand un singur jucator are in mana tot pachetul de carti!\n"
+                 "Veti fi dumneavoastra plus un numar de boti pentru a atinge numarul de playeri doriti\n\n"
+                 "La fiecare runda apasati o tasta pentru a pune cartile jos si a le vizualiza\n"
+                 "Daca doriti sa incheiati jocul, apasati tasta \"x\"\n"
+                 "Daca doriti sa vedeti toate cartile jucatorilor din motive de curiozitate,\n"
+                 "scrieti \"status\"\n";
+
     int numarBoti = 0;
     while (true) {
-        std::cout << "Jocul se joaca in 2-4 jucatori\n";
-        std::cout << "Cati boti doriti sa adaugati ? :";
+        std::cout << "Cati boti doriti sa adaugati ?:";
         std::cin >> numarBoti;
 
         if (numarBoti < 1 || numarBoti > 3)
-            std::cout << "Input invalid\n\n";
+            std::cout << "Input invalid\nNumarul introdus trebuie sa fie in intervalul 1-3\n";
         else
             break;
     }
@@ -83,22 +96,19 @@ int main() {
 
 
     int round = 1;
-    char actiune;
+
     while (!game.isGameOver()) {
         Game::afisareSeparator();
         std::cout << "Runda : " << round << '\n';
         std::cout << "Toata lumea pune carte jos !\n\n";
-        std::cin >> actiune;
-
-        if (actiune == '0') {
-            game.afisareStatusJoc();
-            Game::afisareSeparator();
+        if(game.input()) {
+            game.joaca();
+            ++round;
         }
-        else if (actiune == 'x') /// iesire din joc
+        else
             return 0;
-
-        game.joaca();
-        ++round;
+        if (game.isGameOver()) /// aici jocul se termina fortat
+            return 0;
     }
     std::cout << std::endl;
     std::cout << "JOCUL S-A INCHEIAT\nCASTIGATORUL ESTE ";

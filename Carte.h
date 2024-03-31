@@ -10,19 +10,13 @@
 
 class Carte {
     std::string tip;
-    int numar = 0;
+    int numar;
 public:
-    Carte() = default; /// constructorul default
-    Carte(std::string t, int nr); /// constructor parametrizat
-    ~Carte() = default;
-    Carte(const Carte& obj) = default;
-    Carte& operator=(const Carte& obj) {
-        if (this != &obj) {
-            tip = obj.tip;
-            numar = obj.numar;
-        }
-        return *this;
-    }
+    Carte(); /// constructorul fara parametri
+    Carte(std::string t, int nr); /// constructorul parametrizat
+    ~Carte() {}; /// destructorul
+    Carte(const Carte& obj); /// constructorul de copiere
+    Carte& operator=(const Carte& obj);
 
     bool operator<(const Carte& other) const {
         return numar < other.numar;
