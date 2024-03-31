@@ -59,37 +59,39 @@ void Game::joaca() {
         razboiMode(numarCartiRazboi, rundaCurenta, castig);
     }
 
-    /// Determinare castigator runda
-    unsigned long long indexCastigator = 0;
-    int maxim = 0;
-    for (unsigned long long i = 0; i < rundaCurenta.size(); ++i) {
-        if (rundaCurenta[i] > maxim) {
-            maxim = rundaCurenta[i].getNumar();
-            indexCastigator = i;
-        }
-    }
-
-    std::cout << players[indexCastigator] << " a castigat aceasta runda si ia toate cartile !\n";
-
-    /// Punem cartile castigatorului
-    while (!castig.gol()) {
-        players[indexCastigator].adaugaCarte(castig.extrageCarte());
-    }
-    /// Eliminam jucatorii care au ramas fara carti
-    /// Verificare daca mai are rost sa continue jocul
-    int jucatoriActivi = 0;
-    for (auto &p : players) {
-        p.eliminaDacaInactiv();
-        if (p.eActiv())
-            jucatoriActivi++;
-    }
-    if (jucatoriActivi < 2) {
-        gameOver = true;
-        for (const auto & player : players)
-            if (player.eActiv()) {
-                castigator = player;
-                break;
+    if (!gameOver) {
+        /// Determinare castigator runda
+        unsigned long long indexCastigator = 0;
+        int maxim = 0;
+        for (unsigned long long i = 0; i < rundaCurenta.size(); ++i) {
+            if (rundaCurenta[i] > maxim) {
+                maxim = rundaCurenta[i].getNumar();
+                indexCastigator = i;
             }
+        }
+
+        std::cout << players[indexCastigator] << " a castigat aceasta runda si ia toate cartile !\n";
+
+        /// Punem cartile castigatorului
+        while (!castig.gol()) {
+            players[indexCastigator].adaugaCarte(castig.extrageCarte());
+        }
+        /// Eliminam jucatorii care au ramas fara carti
+        /// Verificare daca mai are rost sa continue jocul
+        int jucatoriActivi = 0;
+        for (auto &p: players) {
+            p.eliminaDacaInactiv();
+            if (p.eActiv())
+                jucatoriActivi++;
+        }
+        if (jucatoriActivi < 2) {
+            gameOver = true;
+            for (const auto &player: players)
+                if (player.eActiv()) {
+                    castigator = player;
+                    break;
+                }
+        }
     }
 }
 
@@ -106,32 +108,36 @@ void Game::razboiMode(const int &numarCartiRazboi, std::vector<Carte> &rundaCure
     bool exista = true;
     for (int i = 1; i <= numarCartiRazboi; ++i) {
         std::cout << "Puneti jos a " << i << "-a carte !\n";
-        std::cin.get();
-        if (exista) {
-            exista = false;
-            int j = 0;
-            for (auto &p: players) {
-                if (p.eActiv()) {
-                    if (p.areCarti()) {
-                        std::cout << p << ' ' << p.numarCarti() << '\n';
-                        Carte aux = p.extrageCarte();
-                        castig.adaugaCarte(aux);
-                        rundaCurenta[j] = aux;
-                        std::cout << rundaCurenta[j] << '\n';
-                        exista = true;
-                    } else {
-                        std::cout << "\"" << p << '\"' << " nu mai are carti, el ramane cu aceasta carte :\n";
-                        std::cout << rundaCurenta[j] << '\n';
+        if (input()) {
+            if (exista) {
+                exista = false;
+                int j = 0;
+                for (auto &p: players) {
+                    if (p.eActiv()) {
+                        if (p.areCarti()) {
+                            std::cout << p << ' ' << p.numarCarti() << '\n';
+                            Carte aux = p.extrageCarte();
+                            castig.adaugaCarte(aux);
+                            rundaCurenta[j] = aux;
+                            std::cout << rundaCurenta[j] << '\n';
+                            exista = true;
+                        } else {
+                            std::cout << "\"" << p << '\"' << " nu mai are carti, el ramane cu aceasta carte :\n";
+                            std::cout << rundaCurenta[j] << '\n';
+                        }
+                        ++j;
+                        afisareSeparator();
                     }
-                    ++j;
-                    afisareSeparator();
                 }
+            } else {
+                std::cout << "TOTI JUCATORII AU RAMAS FARA CARTI !\n";
+                std::cout << "Se folosesc cartile ramase pe masa de la fiecare !\n";
+                break;
             }
         }
         else {
-            std::cout << "TOTI JUCATORII AU RAMAS FARA CARTI !\n";
-            std::cout << "Se folosesc cartile ramase pe masa de la fiecare !\n";
-            break;
+            gameOver = true;
+            return;
         }
     }
 }
@@ -160,4 +166,27 @@ void Game::afisareStatusJoc() {
 
 Jucator Game::getCastigator() const {
     return castigator;
+}
+
+Game &Game::operator=(const Game &obj) {
+    if (this != &obj) {
+        players = obj.players;
+        cartiJucate = obj.cartiJucate;
+        gameOver = obj.gameOver;
+        castigator = obj.castigator;
+    }
+    return *this;
+}
+
+bool Game::input() {
+    std::string actiune;
+    std::cin >> actiune;
+    if (actiune == "status") {
+        afisareStatusJoc();
+        Game::afisareSeparator();
+        return true;
+    }
+    else if (actiune == "x" || actiune == "X") /// iesire din joc
+        return false;
+    return true;
 }

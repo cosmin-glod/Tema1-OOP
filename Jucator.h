@@ -14,7 +14,7 @@ class Jucator {
 public:
     /// Constructor de initializare
     Jucator() = default;
-    explicit Jucator(std::string );
+    explicit Jucator(std::string);
     ~Jucator() = default;
     Jucator(const Jucator& obj) = default;
     Jucator& operator=(const Jucator& obj) {
