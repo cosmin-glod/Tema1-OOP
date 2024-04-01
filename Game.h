@@ -43,6 +43,7 @@ public:
 
     void afisareStatusJoc();
     [[nodiscard]] Jucator getCastigator() const;
+    bool input();
 };
 
 

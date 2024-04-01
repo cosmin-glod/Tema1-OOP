@@ -168,16 +168,6 @@ Jucator Game::getCastigator() const {
     return castigator;
 }
 
-Game &Game::operator=(const Game &obj) {
-    if (this != &obj) {
-        players = obj.players;
-        cartiJucate = obj.cartiJucate;
-        gameOver = obj.gameOver;
-        castigator = obj.castigator;
-    }
-    return *this;
-}
-
 bool Game::input() {
     std::string actiune;
     std::cin >> actiune;
