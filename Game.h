@@ -16,9 +16,16 @@ class Game {
 public:
     Game() = default;
     ~Game() = default;
-    Game(const Game& obj) : players{obj.players}, cartiJucate{obj.cartiJucate},
-                            gameOver{obj.gameOver}, castigator{obj.castigator} {}
-    Game& operator=(const Game& obj);
+    Game(const Game& obj) = default;
+    Game& operator=(const Game& obj) {
+        if (this != &obj) {
+            players = obj.players;
+            cartiJucate = obj.cartiJucate;
+            gameOver = obj.gameOver;
+            castigator = obj.castigator;
+        }
+        return *this;
+    }
 
     void adaugaJucator(const Jucator& jucator);
     void adaugaCarteJucatorului(const Carte& c, int nr);
@@ -36,8 +43,6 @@ public:
 
     void afisareStatusJoc();
     [[nodiscard]] Jucator getCastigator() const;
-
-    bool input();
 };
 
 
